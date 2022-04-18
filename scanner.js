@@ -5,6 +5,13 @@ require('dotenv').config()
 const ticketsRouter = require('./routers/ticketsRouter')
 const colorRouter = require('./routers/colorRouter')
 const app = express()
+const fs = require('fs');
+const https = require('https');
+
+const options = {
+    cert: fs.readFileSync('./sslcert/fullchain.pem'),
+    key: fs.readFileSync('./sslcert/privkey.pem')
+};
 
 const PORT = process.env.PORT_SCANER || 8001
 
@@ -25,6 +32,7 @@ app.use('/api/color', colorRouter)
 const start = async () => {
     try {
         await mongoose.connect(process.env.DB_URL)
+        https.createServer(options, app).listen(8444);
         app.listen(PORT, () => {
             console.log(`server is started on port ${PORT}`)
         })
