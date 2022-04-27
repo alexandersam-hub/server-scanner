@@ -19,8 +19,8 @@ class ColorService{
 
     async addColors(color){
         try{
-            await ColorModel.create({...color})
-            return {warning: false, message:'Цвет добавлен'}
+            const newColor = await ColorModel.create({...color})
+            return {warning: false, message:'Цвет добавлен', color:new colorDto(newColor) }
 
         } catch (e) {
             return {warning: true, message:'Ошибка чтения из базы данных'}

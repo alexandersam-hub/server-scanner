@@ -14,7 +14,9 @@ class ColorController{
     }
     async updateColor(req,res){
         try{
+
             const {color} = req.body
+
             if(color && color.id)
                 return res.json(await colorService.updateColors(color))
             return res.json({warning:true, message:'Не все поля заполнены верно'})
