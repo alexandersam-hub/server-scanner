@@ -7,6 +7,7 @@ const colorRouter = require('./routers/colorRouter')
 const app = express()
 const fs = require('fs');
 const https = require('https');
+// const userRouter = require('./routers/userRouter')
 
 const options = {
     cert: fs.readFileSync('./sslcert/fullchain.pem'),
@@ -27,11 +28,11 @@ app.use(
 
 app.use('/api/ticket', ticketsRouter)
 app.use('/api/color', colorRouter)
-
+// app.use('/api/auth', userRouter)
 
 const start = async () => {
     try {
-        await mongoose.connect(process.env.DB_URL)
+        await mongoose.connect(process.env.DB_URL_SCANER)
         https.createServer(options, app).listen(8444);
         app.listen(PORT, () => {
             console.log(`server is started on port ${PORT}`)
