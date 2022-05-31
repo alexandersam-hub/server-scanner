@@ -20,12 +20,19 @@ app.use(express.json({limit: "50mb"}))
 
 app.use(
     cors({
-        // credentials: true,
-        // origin: [process.env.URL_CLIENT],
-        // optionsSuccessStatus: 200
+        "origin": "*",
+        "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "preflightContinue": false,
+        "optionsSuccessStatus": 204
     })
 );
-
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
 app.use('/api/ticket', ticketsRouter)
 app.use('/api/color', colorRouter)
 // app.use('/api/auth', userRouter)
